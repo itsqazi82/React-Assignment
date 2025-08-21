@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>assignmnet-2</title>
+</head>
+<body>
+  <h1 style="margin-top: 200px; text-align: center; font-size: 80px;">Var vs Let vs Const</h1>
+  <script>
+    //                                        VAR 
+
+    // reinitialize ✅ | reassign ✅ | redeclare ✅ | hoisted ✅ | block scope ❌
+    var a = "Abdul";  
+    var abc;             // declaration works
+    var a = "haseeb";     // redeclared
+    console.log(a);      // Output: haseeb
+    a = "Haseeb";      // reassigned
+    console.log(a);      // Output: Haseeb
+
+    // Function scope with var
+    function checjkingvar() {
+      var b = "Inside function (qazi)";
+      console.log(b);  
+    }
+    checjkingvar();
+
+
+    //                                        LET
+
+    // reinitialize ❌ | reassign ✅ | redeclare ❌ | hoisted ❌ | block scope ✅
+
+    let x = 10;
+    console.log(x);    // Output: 10
+    x = 20;            // reassigned
+    console.log(x);    // Output: 20
+
+    {
+      let x = 30;      // block scope
+      console.log(x);  // Output: 30
+    }
+    console.log(x);    // bahir wala x Output: 20
+
+    //                                       CONST 
+
+    // reinitialize ❌ | reassign ❌ | redeclare ❌ | hoisted ❌ | block scope ✅
+    const y = 100;
+    console.log(y);    // Output: 100
+
+    {
+      const y = 200;   // block scope
+      console.log(y);  // Output: 200
+    }
+    console.log(y);    //bahir wala y Output: 100
+  </script>
+</body>
+</html>
