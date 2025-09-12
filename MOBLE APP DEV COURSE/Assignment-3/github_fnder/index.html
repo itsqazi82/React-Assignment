@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #24292e;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+    .search-box input {
+      padding: 10px;
+      width: 300px;
+      border: 2px solid #24292e;
+      border-radius: 5px 0 0 5px;
+    }
+    .search-box button {
+      padding: 10px 15px;
+      border: none;
+      background: #24292e;
+      color: white;
+      cursor: pointer;
+      border-radius: 0 5px 5px 0;
+    }
+    .profile {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+    .profile img {
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+    }
+    .profile h2 {
+      margin: 10px 0;
+    }
+    .repos {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .repos a {
+      display: block;
+      margin: 5px 0;
+      padding: 8px;
+      background: #f6f8fa;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #0366d6;
+      font-weight: bold;
+    }
+    .repos a:hover {
+      background: #e1e4e8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GitHub Finder</h1>
+  </header>
+
+  <div class="search-box">
+    <input type="text" id="username" placeholder="Enter GitHub username">
+    <button onclick="getUser()">Search</button>
+  </div>
+
+  <div id="profile"></div>
+
+  <script>
+    async function getUser() {
+      const username = document.getElementById("username").value;
+      if (!username) return alert("Enter a username");
+
+      const res = await fetch(`https://api.github.com/users/${username}`);
+      const user = await res.json();
+
+      if (user.message === "Not Found") {
+        document.getElementById("profile").innerHTML = "<p>User not found</p>";
+        return;
+      }
+
+      const reposRes = await fetch(user.repos_url);
+      const repos = await reposRes.json();
+
+      document.getElementById("profile").innerHTML = `
+        <div class="profile">
+          <img src="${user.avatar_url}" alt="profile">
+          <h2>${user.name || user.login}</h2>
+          <p>${user.bio || "No bio available"}</p>
+          <p>Followers: ${user.followers} | Following: ${user.following}</p>
+          <a href="${user.html_url}" target="_blank">View Profile</a>
+          <div class="repos">
+            <h3>Repositories:</h3>
+            ${repos.slice(0, 5).map(r => `<a href="${r.html_url}" target="_blank">${r.name}</a>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

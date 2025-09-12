@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GNews Search App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      color: #333;
+    }
+    header {
+      background: #0d6efd;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+    .search-box input {
+      width: 60%;
+      max-width: 500px;
+      padding: 12px;
+      border: 2px solid #0d6efd;
+      border-radius: 25px 0 0 25px;
+      outline: none;
+      font-size: 16px;
+    }
+    .search-box button {
+      padding: 12px 20px;
+      border: none;
+      background: #0d6efd;
+      color: white;
+      font-size: 16px;
+      border-radius: 0 25px 25px 0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .search-box button:hover {
+      background: #084298;
+    }
+    .news-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+    }
+    .card-content h3 {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #0d6efd;
+    }
+    .card-content p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .card-content a {
+      text-decoration: none;
+      color: white;
+      background: #0d6efd;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .card-content a:hover {
+      background: #084298;
+    }
+    .message {
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GNews Search App</h1>
+  </header>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search news topics...">
+    <button onclick="searchNews()">Search</button>
+  </div>
+
+  <div id="news" class="news-container"></div>
+  <div id="message" class="message"></div>
+
+  <script>
+    const apiKey = "77896f8d1552cb9b121d5d4a4b54638c"; // Replace with your GNews key
+    const newsContainer = document.getElementById("news");
+    const message = document.getElementById("message");
+
+    async function searchNews() {
+      const query = document.getElementById("searchInput").value.trim();
+      if (!query) {
+        message.textContent = "Please enter a topic to search!";
+        newsContainer.innerHTML = "";
+        return;
+      }
+
+      message.textContent = "Loading news...";
+      newsContainer.innerHTML = "";
+
+      const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=us&max=12&token=${apiKey}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.articles || data.articles.length === 0) {
+          message.textContent = "No news found for your search.";
+          return;
+        }
+
+        message.textContent = "";
+        data.articles.forEach(article => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${article.image || 'https://via.placeholder.com/300'}" alt="news">
+            <div class="card-content">
+              <h3>${article.title}</h3>
+              <p>${article.description || "No description available."}</p>
+              <a href="${article.url}" target="_blank">Read More</a>
+            </div>
+          `;
+          newsContainer.appendChild(card);
+        });
+      } catch (err) {
+        console.error(err);
+        message.textContent = "Error fetching news. Please try again.";
+      }
+    }
+  </script>
+</body>
+</html>
