@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Marks Lookup by Roll</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 220px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #53b45c;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Details</h2>
+
+  <form id="form">
+    <input type="text" id="name" placeholder="Student Name..." required><br>
+    <input type="text" id="roll" placeholder="Roll Number (e.g. 101)..." required><br>
+    <input type="text" id="class" placeholder="Class (e.g. 10th)..." required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const marksByRoll = {
+      "101": {
+        subjects: {
+          Math: 85,
+          English: 78,
+          Science: 90,
+          Computer: 92,
+          Urdu: 75
+        }
+      },
+      "102": {
+        subjects: {
+          Math: 95,
+          English: 89,
+          Science: 92,
+          Computer: 88,
+          Urdu: 90
+        }
+      },
+      "103": {
+        subjects: {
+          Math: 70,
+          English: 65,
+          Science: 60,
+          Computer: 68,
+          Urdu: 72
+        }
+      },
+      "104": {
+        subjects: {
+          Math: 88,
+          English: 92,
+          Science: 85,
+          Computer: 91,
+          Urdu: 86
+        }
+      },
+      "105": {
+        subjects: {
+          Math: 75,
+          English: 70,
+          Science: 80,
+          Computer: 77,
+          Urdu: 79
+        }
+      }
+    };
+
+    const form = document.getElementById('form');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const roll = document.getElementById('roll').value.trim();
+      const className = document.getElementById('class').value.trim();
+
+      const data = marksByRoll[roll];
+
+      if (!data) {
+        result.innerHTML = `<p class="error">❌ Roll number "${roll}" not found. Try: 101, 102, 103, 104, 105</p>`;
+        return;
+      }
+
+      const subjects = data.subjects;
+      const total = Object.values(subjects).reduce((sum, mark) => sum + mark, 0);
+      const percentage = total / Object.keys(subjects).length;
+      const grade = getGrade(percentage);
+
+      let subjectRows = Object.entries(subjects)
+        .map(([subject, mark]) => `<tr><td>${subject}</td><td>${mark}</td></tr>`)
+        .join('');
+
+      result.innerHTML = `
+        <h3>Student Info</h3>
+        <table>
+          <tr><th>Name</th><th>Roll No</th><th>Class</th></tr>
+          <tr><td>${name}</td><td>${roll}</td><td>${className}</td></tr>
+        </table>
+
+        <h3>Marks</h3>
+        <table>
+          <tr><th>Subject</th><th>Marks</th></tr>
+          ${subjectRows}
+          <tr><th>Total</th><th>${total}</th></tr>
+          <tr><th>Percentage</th><th>${percentage.toFixed(2)}%</th></tr>
+          <tr><th>Grade</th><th>${grade}</th></tr>
+        </table>
+      `;
+
+      form.reset();
+    });
+
+    const getGrade = (p) => {
+      if (p >= 90) return 'A+';
+      if (p >= 80) return 'A';
+      if (p >= 70) return 'B';
+      if (p >= 60) return 'C';
+      return 'F';
+    };
+  </script>
+
+</body>
+</html>
