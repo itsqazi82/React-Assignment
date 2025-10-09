@@ -1,0 +1,35 @@
+.navbar {
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.navbar input {
+  width: 40%;
+  padding: 8px 14px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.nav-links a {
+  margin-left: 25px;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #007bff;
+}
