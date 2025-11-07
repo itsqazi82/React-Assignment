@@ -1,0 +1,109 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f0f10, #1b1b1d);
+  color: #f1f1f1;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #111;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.main-title {
+  text-align: center;
+  color: #ffd700;
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px #ffd700;
+}
+
+.card {
+  background: #1a1a1d;
+  border: 1px solid #333;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+}
+
+button {
+  background: linear-gradient(90deg, #ffd700, #ffa500);
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  margin: 5px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ffd700;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background: #222;
+  color: #fff;
+  width: 70%;
+  margin-right: 10px;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-list li {
+  background: #2a2a2d;
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.todo-list li:hover {
+  background: #333;
+}
+
+.success {
+  color: #00ff88;
+  font-weight: 600;
+}
+
+nav a {
+  color: #ffd700;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.dark {
+  background: #1a1a1d;
+}
+
+.light {
+  background: #fdf5e6;
+  color: #111;
+}
